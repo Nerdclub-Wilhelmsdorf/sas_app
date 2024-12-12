@@ -32,3 +32,21 @@ export let PinInputModal = $state({open: false, pin: ""});
 
 export let inputAmount = $state({amount : ""});
 export let Partner = $state({partner: ""});
+
+export let biometricsAvailable = $state({available: false});
+
+export let biometricUnlockedAccount = $state({unlocked: false});
+
+export const BiometricOptions = {
+    // Set true if you want the user to be able to authenticate using phone password
+    allowDeviceCredential: true,
+    cancelTitle: "Die Funktion kann ohne Authentifizierung nicht genutzt werden.",
+  
+    // iOS only feature
+    fallbackTitle: 'Authentifizierung fehlgeschlagen.',
+  
+    // Android only features
+    title: 'Authentifizierung erforderlich',
+    subtitle: 'Bitte authentifiziere dich um fortzufahren.',
+    confirmationRequired: true,
+  };

@@ -1,7 +1,8 @@
+import { authenticate } from "@tauri-apps/plugin-biometric";
 import { handleBalance } from "./req/get_balance";
 import { convertHistory, getHistory } from "./req/get_history";
 import { gettimepin, getTimestamp } from "./req/obfuscatePin";
-import { Balance, CurrentError, currentPage, CurrentPage, isLoading, setCurrentPage, User } from "./stores.svelte";
+import { Balance, BiometricOptions, biometricUnlockedAccount, CurrentError, currentPage, CurrentPage, isLoading, setCurrentPage, User } from "./stores.svelte";
 
 export const gray = "text-gray-500 dark:text-gray-400 group-hover:text-primary-600 dark:group-hover:text-primary-500";
 export const primary = "text-primary-500 dark:text-primary-400 group-hover:text-primary-600 dark:group-hover:text-primary-500";
@@ -12,6 +13,19 @@ export let qrColors = $state({color: gray});
 
 export async function handleBalanceClick() {
   if (currentPage.page != CurrentPage.Balance) {
+    if (!biometricUnlockedAccount.unlocked) {
+      try {
+        await authenticate("Authentifizierung erforderlich.", BiometricOptions);
+        biometricUnlockedAccount.unlocked = true;
+        //lock again after 5 minutes
+        setTimeout(() => {
+          biometricUnlockedAccount.unlocked = false;
+        }, 300000);
+      } catch {
+        CurrentError.hasError = true;
+        CurrentError.error = "Authentifizierung fehlgeschlagen.";
+      }
+    }
     isLoading.loading = true;
     let [success, error_msg] = await updateBalance();
     if (!success) {

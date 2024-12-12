@@ -2,9 +2,10 @@
     import toast, {Toaster} from 'svelte-5-french-toast'
     import {  Button, Checkbox, Input, Label, P , ButtonGroup} from "flowbite-svelte";
     import { QrCode} from "lucide-svelte";
-    import { inputAmount, Partner, PinInputModal, User } from "../src/stores.svelte";
+    import { BiometricOptions, CurrentError, inputAmount, Partner, PinInputModal, User } from "../src/stores.svelte";
     import { handleSend } from "../src/handleSend";
     import PinModal from './PinModal.svelte';
+    import { authenticate } from '@tauri-apps/plugin-biometric';
     const dataSender = {
         topText: "Empfänger",
         hintText: "Kontonummer des Empfängers",
@@ -88,6 +89,12 @@
         {#if inputAmount.amount !== ""}{Number(inputAmount.amount) - (Number(inputAmount.amount) / 10) + "D"}{/if}
     </Label>
     <Button class="mb-10 py-6 px-24 text-2xl rounded-full" on:click={async () => {
+        try {
+            await authenticate('Bitte authentifiziere dich.', BiometricOptions);
+        } catch{
+            CurrentError.error = "Fehler bei der Authentifizierung.";
+            CurrentError.hasError = true;
+        }
         if(!isRecieve){
            let resp = await handleSend(User.name,Partner.partner ,inputAmount.amount, User.pin);
            if (resp) {

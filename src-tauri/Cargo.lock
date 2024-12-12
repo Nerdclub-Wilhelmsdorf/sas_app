@@ -99,6 +99,7 @@ dependencies = [
  "serde_json",
  "tauri",
  "tauri-build",
+ "tauri-plugin-biometric",
  "tauri-plugin-http",
  "tauri-plugin-log",
 ]
@@ -3804,6 +3805,21 @@ dependencies = [
  "tauri-utils",
  "toml 0.8.2",
  "walkdir",
+]
+
+[[package]]
+name = "tauri-plugin-biometric"
+version = "2.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "97052263d415490460196611ec0d9b5582dcff26062c63e941f5dc0f3069eae6"
+dependencies = [
+ "log",
+ "serde",
+ "serde_json",
+ "serde_repr",
+ "tauri",
+ "tauri-plugin",
+ "thiserror 2.0.6",
 ]
 
 [[package]]

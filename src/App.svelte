@@ -1,15 +1,20 @@
 <script>
   import { Button, Toast } from "flowbite-svelte";
   import BottomBar from "./lib/BottomBar.svelte";
-  import { CurrentPage, currentPage } from "./src/stores.svelte";
+  import { biometricsAvailable, CurrentPage, currentPage } from "./src/stores.svelte";
   import Pay from "./lib/Pay.svelte";
   import Qr from "./lib/Qr.svelte"; // Capitalize the component name
   import Transactions from "./lib/Transactions.svelte";
   import Header from "./lib/Header.svelte";
-    import ErrorModal from "./lib/errorModal.svelte";
-    import Loading from "./lib/Loading.svelte";
-    import { Pin } from "lucide-svelte";
-    import PinModal from "./lib/PinModal.svelte";
+  import ErrorModal from "./lib/errorModal.svelte";
+  import Loading from "./lib/Loading.svelte";
+  import PinModal from "./lib/PinModal.svelte";
+  import { checkStatus } from '@tauri-apps/plugin-biometric';
+    import { onMount } from "svelte";
+  onMount(async () => {
+    let status = await checkStatus();
+    biometricsAvailable.available = status.isAvailable;
+  });
   let activeUrl = "/";
 </script>
 
