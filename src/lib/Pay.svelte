@@ -6,6 +6,7 @@
     import { handleSend } from "../src/handleSend";
     import PinModal from './PinModal.svelte';
     import { authenticate } from '@tauri-apps/plugin-biometric';
+    import { scan, Format } from '@tauri-apps/plugin-barcode-scanner';
     const dataSender = {
         topText: "Empfänger",
         hintText: "Kontonummer des Empfängers",
@@ -53,7 +54,9 @@
             autocomplete="one-time-code"
         />
         <QrCode
-                on:click={() => console.log("QR-Code clicked")}
+                on:click={async () => {
+                    let scanned = await scan({formats: [Format.QRCode] });
+                }}
                 class=" h-6 mr-10 text-primary-500"
                 size="30"
                 style="outline: none; box-shadow: none; border: none;"
