@@ -1,10 +1,10 @@
 <script>
-    import {  Button, Checkbox, Input, Label } from "flowbite-svelte";
+    import {  Button, Checkbox, Input, Label, P , ButtonGroup} from "flowbite-svelte";
     import { QrCode} from "lucide-svelte";
-
+    let inputAmount = $state("");
 </script>
 
-<Label class="mb-2 mt-20 ml-10">Sender</Label>
+<P class="mb-2 mt-20 ml-10" size="lg">Empfänger</P>
 <div class="mb-3 flex items-center">
     <div class="w-full flex items-center">
         <Input
@@ -24,23 +24,31 @@
     </div>
 </div>
 
-<Label class="mb-2 mt-4 ml-2">Betrag</Label>
-<div class="mb-6 ml-2 flex items-center">
+<P class="mb-2 mt-10 ml-10" size="lg">Betrag</P>
+<div class="mb-3 flex items-center">
     <div class="w-full flex items-center">
         <Input
-            placeholder="0.0D"
+            bind:value={inputAmount}
+            placeholder="12"
             required
-            class="mr-2"
+            size="lg"
+            class="mr-20 ml-10"
             autocomplete="one-time-code"
         />
     </div>
 </div>
 
-<Label class="mb-2 mt-4 ml-2"></Label>
-<div class="mb-6 ml-2 flex items-center">
-    <div class="w-full flex items-center">
-        <Button >Weiter</Button>
-    </div>
+<div class="grid flex justify-center items-center" style="position: fixed; bottom: 30%; width: 100%;">
+    <Label class="flex justify-center items-center">Sender Bezahlt: 
+        {#if inputAmount !== ""} {inputAmount}{/if} 
+    </Label> 
+    <Label class="flex justify-center items-center">Empfänger erhält: 
+        {#if inputAmount !== ""}{Number(inputAmount) - (Number(inputAmount) / 10)}{/if}
+    </Label>
+</div>
+
+<div class="flex justify-center items-center" style="position: fixed; bottom: 5%; width: 100%;">
+    <Button class="mb-40" size="lg">Weiter</Button>
 </div>
 
 

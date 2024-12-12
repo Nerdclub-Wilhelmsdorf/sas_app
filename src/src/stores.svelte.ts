@@ -12,4 +12,4 @@ export function setCurrentPage(page: CurrentPage) {
     currentPage.page = page;
 }
 
-export User = $state({id: "urs", pin : "1234"});
+export let User = $state({name: "urs", pin: "1234"});
