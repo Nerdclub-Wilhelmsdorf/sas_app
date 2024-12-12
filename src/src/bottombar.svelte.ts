@@ -1,11 +1,10 @@
 import { handleBalance } from "./req/get_balance";
 import { convertHistory, getHistory } from "./req/get_history";
 import { gettimepin, getTimestamp } from "./req/obfuscatePin";
-import { Balance, CurrentError, currentPage, CurrentPage, setCurrentPage, User } from "./stores.svelte";
+import { Balance, CurrentError, currentPage, CurrentPage, isLoading, setCurrentPage, User } from "./stores.svelte";
 
 export const gray = "text-gray-500 dark:text-gray-400 group-hover:text-primary-600 dark:group-hover:text-primary-500";
 export const primary = "text-primary-500 dark:text-primary-400 group-hover:text-primary-600 dark:group-hover:text-primary-500";
-let isLoading = true;
 export let payColors = $state({color: primary});
 export let balanceColors = $state({color: gray});
 export let qrColors = $state({color: gray});
@@ -13,18 +12,19 @@ export let qrColors = $state({color: gray});
 
 export async function handleBalanceClick() {
   if (currentPage.page != CurrentPage.Balance) {
+    isLoading.loading = true;
     let [success, error_msg] = await updateBalance();
     if (!success) {
+        isLoading.loading = false;
         CurrentError.hasError = true;
         CurrentError.error = error_msg;
-        isLoading = false;
       return;
     }
     [success, error_msg] = await updateHistory();
+    isLoading.loading = false;
     if (!success) {
       CurrentError.hasError = true;
       CurrentError.error = error_msg;
-      isLoading = false;
     return;
   }
     setCurrentPage(CurrentPage.Balance);
@@ -87,7 +87,7 @@ export async function updateHistory(): Promise<[boolean, string]> {
     }
     resp = await getHistory(User.name, gettimepin(User.pin, timestamp))
     if (resp.status === 200) {
-      Balance.history = convertHistory(await resp.text());
+      Balance.history = convertHistory(await resp.text()).reverse();
       return[ true,""];
     }
     if(resp.status != 201){

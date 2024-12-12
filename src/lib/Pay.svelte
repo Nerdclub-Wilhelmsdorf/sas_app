@@ -1,19 +1,29 @@
 <script>
+    import toast, {Toaster} from 'svelte-5-french-toast'
     import {  Button, Checkbox, Input, Label, P , ButtonGroup} from "flowbite-svelte";
     import { QrCode} from "lucide-svelte";
-    import { User } from "../src/stores.svelte";
-    let inputAmount = $state("");
-    let Partner = $state("");
+    import { inputAmount, Partner, PinInputModal, User } from "../src/stores.svelte";
+    import { handleSend } from "../src/handleSend";
+    import PinModal from './PinModal.svelte';
+    const dataSender = {
+        topText: "Empfänger",
+        hintText: "Kontonummer des Empfängers",
+    }
+    const dataReciever = {
+        topText: "Sender",
+        hintText: "Kontonummer des Senders",
+    }
+    let data = $state(dataSender);
     let isRecieve = $state(false);
     let canContinue = $state(false);
     $effect(() => {
-        if (inputAmount == "" || Partner == "") {
+        if (inputAmount.amount == "" || Partner.partner == "") {
             canContinue = false;
         } else {
-            if (isNaN(Number(inputAmount))) {
+            if (isNaN(Number(inputAmount.amount))) {
                 canContinue = false;
             } else {
-                if (Number(inputAmount) > 0 && Partner != User.name) {
+                if (Number(inputAmount.amount) > 0 && Partner.partner != User.name) {
                     canContinue = true;
                 } else {
                     canContinue = false;
@@ -21,15 +31,22 @@
             }
         }
     });
+    $effect(() => {
+        if (isRecieve) {
+            data = dataReciever;
+        } else {
+            data = dataSender;
+        }
+    });
 </script>
-
-<P class="mb-2 mt-20 ml-10" size="lg">Empfänger</P>
+<Toaster />
+<P class="mb-2 mt-20 ml-10" size="lg">{data.topText}</P>
 <div class="mb-3 flex items-center">
     <div class="w-full flex items-center">
         <Input
-            placeholder="Kontonummer des Senders"
+            placeholder={data.hintText}
             required
-            bind:value={Partner}
+            bind:value={Partner.partner}
             class="mr-2 ml-10"
             size = "lg"
             autocomplete="one-time-code"
@@ -48,7 +65,7 @@
 <div class="mb-3 flex items-center">
     <div class="w-full flex items-center">
         <Input
-            bind:value={inputAmount}
+            bind:value={inputAmount.amount}
             placeholder="12"
             required
             size="lg"
@@ -59,18 +76,30 @@
     </div>
 </div>
 
-<div class="grid flex justify-center items-center" style="position: fixed; bottom: 30%; width: 100%;">
+<div class="grid justify-center items-center" style="position: fixed; bottom: 30%; width: 100%;">
 
 </div>
 
 <div class="grid justify-center items-center" style="position: fixed; bottom: 20%; width: 100%;">
     <Label class="flex justify-center items-center">Sender Bezahlt: 
-        {#if inputAmount !== ""} {inputAmount + "D"}{/if} 
+        {#if inputAmount.amount !== ""} {inputAmount.amount + "D"}{/if} 
     </Label> 
     <Label class="flex justify-center items-center mb-2">Empfänger erhält: 
-        {#if inputAmount !== ""}{Number(inputAmount) - (Number(inputAmount) / 10) + "D"}{/if}
+        {#if inputAmount.amount !== ""}{Number(inputAmount.amount) - (Number(inputAmount.amount) / 10) + "D"}{/if}
     </Label>
-    <Button class="mb-10 py-6 px-24 text-2xl rounded-full" size="lg" disabled={!canContinue}>Weiter</Button>
+    <Button class="mb-10 py-6 px-24 text-2xl rounded-full" on:click={async () => {
+        if(!isRecieve){
+           let resp = await handleSend(User.name,Partner.partner ,inputAmount.amount, User.pin);
+           if (resp) {
+            toast.success("Erfolgreich überwiesen: " + inputAmount.amount + "D");
+            inputAmount.amount = "";
+            Partner.partner = "";
+            } else {
+           }
+        }else {
+            PinInputModal.open = true;
+        }
+    }} size="lg" disabled={!canContinue}>Weiter</Button>
 </div>
 
 <div class="grid justify-center items-center" style="position: fixed; bottom: 5%; width: 100%;">

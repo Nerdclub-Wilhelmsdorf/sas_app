@@ -1,5 +1,5 @@
 <script>
-  import { Button } from "flowbite-svelte";
+  import { Button, Toast } from "flowbite-svelte";
   import BottomBar from "./lib/BottomBar.svelte";
   import { CurrentPage, currentPage } from "./src/stores.svelte";
   import Pay from "./lib/Pay.svelte";
@@ -7,6 +7,9 @@
   import Transactions from "./lib/Transactions.svelte";
   import Header from "./lib/Header.svelte";
     import ErrorModal from "./lib/errorModal.svelte";
+    import Loading from "./lib/Loading.svelte";
+    import { Pin } from "lucide-svelte";
+    import PinModal from "./lib/PinModal.svelte";
   let activeUrl = "/";
 </script>
 
@@ -22,9 +25,9 @@
     flex: 1; /* Allow the content to grow and take up available space */
   }
 </style>
-
+<Loading/>
 <ErrorModal/>
-
+<PinModal/>
 
 <div class="app-container">
   <Header/>
