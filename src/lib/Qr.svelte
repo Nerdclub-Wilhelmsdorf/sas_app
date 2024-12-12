@@ -12,12 +12,16 @@
 	};
 
 </script>
-<Heading tag="h2" class="mt-5 ml-12" customSize="text-4xl font-bold">Code von {User.name}:</Heading>
+<Heading tag="h2" class="mt-6 text-center" customSize="text-4xl font-bold">Code von {User.name}:</Heading>
 
-<svg
-    class="mr-10 ml-10 mt-3"
+<div class="flex justify-center items-center">
+	<svg
+    class="mr-6 ml-6 mt-0 max-w-xl"
 	use:qr={{
 		data: `w:${User.name}`,
 		shape: 'square',
 	}}
 />
+</div>
+
+
