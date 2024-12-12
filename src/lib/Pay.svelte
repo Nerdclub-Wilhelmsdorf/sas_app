@@ -83,19 +83,19 @@
 
 <div class="grid justify-center items-center" style="position: fixed; bottom: 20%; width: 100%;">
     <Label class="flex justify-center items-center">Sender Bezahlt: 
-        {#if inputAmount.amount !== ""} {inputAmount.amount + "D"}{/if} 
+        {#if inputAmount.amount !== "" && !isNaN(Number(inputAmount.amount))} {inputAmount.amount + "D"}{/if} 
     </Label> 
     <Label class="flex justify-center items-center mb-2">Empfänger erhält: 
-        {#if inputAmount.amount !== ""}{Number(inputAmount.amount) - (Number(inputAmount.amount) / 10) + "D"}{/if}
+        {#if inputAmount.amount !== "" && !isNaN(Number(inputAmount.amount))} {Number(inputAmount.amount) - (Number(inputAmount.amount) / 10) + "D"}{/if}
     </Label>
     <Button class="mb-10 py-6 px-24 text-2xl rounded-full" on:click={async () => {
-        try {
-            await authenticate('Bitte authentifiziere dich.', BiometricOptions);
-        } catch{
-            CurrentError.error = "Fehler bei der Authentifizierung.";
-            CurrentError.hasError = true;
-        }
-        if(!isRecieve){
+         if(!isRecieve){
+                try {
+                await authenticate('Bitte authentifiziere dich.', BiometricOptions);
+          } catch{
+              CurrentError.error = "Fehler bei der Authentifizierung.";
+              CurrentError.hasError = true;
+            }
            let resp = await handleSend(User.name,Partner.partner ,inputAmount.amount, User.pin);
            if (resp) {
             toast.success("Erfolgreich überwiesen: " + inputAmount.amount + "D");
