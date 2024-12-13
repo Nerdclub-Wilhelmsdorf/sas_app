@@ -24,6 +24,7 @@ export async function handleBalanceClick() {
       } catch {
         CurrentError.hasError = true;
         CurrentError.error = "Authentifizierung fehlgeschlagen.";
+        return
       }
     }
     isLoading.loading = true;

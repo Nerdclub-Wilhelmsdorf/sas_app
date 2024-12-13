@@ -98,6 +98,7 @@
           } catch{
               CurrentError.error = "Fehler bei der Authentifizierung.";
               CurrentError.hasError = true;
+              return
             }
            let resp = await handleSend(User.name,Partner.partner ,inputAmount.amount, User.pin);
            if (resp) {
