@@ -36,6 +36,7 @@
     "crypto-js": "^4.2.0",
     "lucide-svelte": "^0.468.0",
     "svelte-5-french-toast": "^2.0.1",
+    "svelte-qrcode": "^1.0.1",
     "tauri": "^0.15.0",
     "virtua": "^0.39.0"
   }

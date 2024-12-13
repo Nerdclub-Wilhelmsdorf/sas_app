@@ -12,16 +12,16 @@
 
 </script>
 {#if !modalOpen}
-<BottomNav position="fixed" classInner="grid-cols-3" activeUrl="/" style="bottom: 0; width: 100%;">
-  <BottomNavItem btnName="Bezahlen" class={payColors.color} on:click={handlePayClick}>
+<BottomNav position="fixed" classInner="grid-cols-3" activeUrl="/" style="bottom: 0; width: 100%; height: 10vh;">
+  <BottomNavItem btnName="Bezahlen" class="{payColors.color} mb-4" on:click={handlePayClick}>
     <UserRound class={payColors.color} style="outline: none; box-shadow: none; border: none;" />
   </BottomNavItem>
 
-  <BottomNavItem btnName="QR-Code" class={qrColors.color} on:click={handleQRClick}>
+  <BottomNavItem btnName="QR-Code" class="{qrColors.color} mb-4" on:click={handleQRClick}>
     <QrCode class={qrColors.color} style="outline: none; box-shadow: none; border: none;" />
   </BottomNavItem>
 
-  <BottomNavItem btnName="Konto" class={balanceColors.color} on:click={handleBalanceClick}>
+  <BottomNavItem btnName="Konto" class="{balanceColors.color} mb-4" on:click={handleBalanceClick}>
     <Wallet class={balanceColors.color} style="outline: none; box-shadow: none; border: none;" />
   </BottomNavItem>
 </BottomNav>
