@@ -11,6 +11,8 @@
   import PinModal from "./lib/PinModal.svelte";
   import { checkStatus } from '@tauri-apps/plugin-biometric';
     import { onMount } from "svelte";
+    import QrScanImpl from "./lib/QrCodeScanner.svelte";
+    import QrScan from "./lib/QrScan.svelte";
   onMount(async () => {
     let status = await checkStatus();
     biometricsAvailable.available = status.isAvailable;
@@ -33,7 +35,7 @@
 <Loading/>
 <ErrorModal/>
 <PinModal/>
-
+<QrScan/>
 <div class="app-container">
   <Header/>
 

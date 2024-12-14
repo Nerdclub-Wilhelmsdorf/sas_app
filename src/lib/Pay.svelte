@@ -1,12 +1,12 @@
 <script>
     import toast, {Toaster} from 'svelte-5-french-toast'
     import {  Button, Checkbox, Input, Label, P , ButtonGroup} from "flowbite-svelte";
-    import { QrCode} from "lucide-svelte";
-    import { BiometricOptions, CurrentError, inputAmount, Partner, PinInputModal, User } from "../src/stores.svelte";
+    import { QrCode, QrCodeIcon} from "lucide-svelte";
+    import { BiometricOptions, CurrentError, inputAmount, Partner, PinInputModal, QrCodeModal, User } from "../src/stores.svelte";
     import { handleSend } from "../src/handleSend";
     import PinModal from './PinModal.svelte';
     import { authenticate } from '@tauri-apps/plugin-biometric';
-    import { scan, Format } from '@tauri-apps/plugin-barcode-scanner';
+    import { scan, Format} from '@tauri-apps/plugin-barcode-scanner';
     const dataSender = {
         topText: "Empfänger",
         hintText: "Kontonummer des Empfängers",
@@ -53,15 +53,15 @@
             size = "lg"
             autocomplete="one-time-code"
         />
-        <Button
-                on:click={async () => {
-
-                    let scanned = await scan({formats: [Format.QRCode] });
-                }}
-                class=" h-6 mr-10 text-primary-500"
-                style="outline: none; box-shadow: none; border: none;"
-            />
-
+  <a
+    class="h-6 mr-10 text-primary-500"
+    style="outline: none; box-shadow: none; border: none; cursor: pointer;"
+    onclick={async () => {
+        QrCodeModal.open = true;
+    }}
+      >
+    <QrCodeIcon size={20} />
+</a>
     </div>
 </div>
 
