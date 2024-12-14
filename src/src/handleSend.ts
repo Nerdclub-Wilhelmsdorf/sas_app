@@ -9,8 +9,8 @@ export async function handleSend(from: string, to: string, amount: string, pin: 
     try{
         timestamp = await getTimestamp();
     }catch(error: any){
-        isLoading.loading = false;
         CurrentError.error = error;
+        isLoading.loading = false;
         CurrentError.hasError = true;
     }
     try {
@@ -20,19 +20,19 @@ export async function handleSend(from: string, to: string, amount: string, pin: 
             isLoading.loading = false;
             return true
         } else if (response.status == 201) {
-            isLoading.loading = false;
             CurrentError.error = await response.text();
+            isLoading.loading = false;
             CurrentError.hasError = true;
             return false;
         } else {
-            isLoading.loading = false;
             CurrentError.error = "Bitte überprüfe deine Internetverbindung.";
+            isLoading.loading = false;
             CurrentError.hasError = true;
             return false;
         }
     } catch (error: any) {
-        isLoading.loading = false;
         CurrentError.error = "Bitte überprüfe deine Internetverbindung.";
+        isLoading.loading = false;
         CurrentError.hasError = true;
         return false;
     }

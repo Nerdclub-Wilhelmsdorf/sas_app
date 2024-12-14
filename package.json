@@ -30,9 +30,12 @@
     "vite": "^6.0.1"
   },
   "dependencies": {
+    "@rollup/rollup-linux-x64-gnu": "^4.28.1",
+    "@tauri-apps/cli-linux-x64-gnu": "^2.1.0",
     "@tauri-apps/plugin-barcode-scanner": "^2.2.0",
     "@tauri-apps/plugin-biometric": "^2.2.0",
     "@tauri-apps/plugin-http": "^2.2.0",
+    "@tauri-apps/plugin-os": "^2.2.0",
     "crypto-js": "^4.2.0",
     "lucide-svelte": "^0.468.0",
     "svelte-5-french-toast": "^2.0.1",

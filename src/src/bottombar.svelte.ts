@@ -22,24 +22,24 @@ export async function handleBalanceClick() {
           biometricUnlockedAccount.unlocked = false;
         }, 300000);
       } catch {
-        CurrentError.hasError = true;
         CurrentError.error = "Authentifizierung fehlgeschlagen.";
+        CurrentError.hasError = true;
         return
       }
     }
     isLoading.loading = true;
     let [success, error_msg] = await updateBalance();
     if (!success) {
+        CurrentError.error = error_msg;
         isLoading.loading = false;
         CurrentError.hasError = true;
-        CurrentError.error = error_msg;
       return;
     }
     [success, error_msg] = await updateHistory();
     isLoading.loading = false;
     if (!success) {
-      CurrentError.hasError = true;
       CurrentError.error = error_msg;
+      CurrentError.hasError = true;
     return;
   }
     setCurrentPage(CurrentPage.Balance);

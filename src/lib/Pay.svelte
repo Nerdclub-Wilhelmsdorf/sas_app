@@ -53,12 +53,12 @@
             size = "lg"
             autocomplete="one-time-code"
         />
-        <QrCode
+        <Button
                 on:click={async () => {
+
                     let scanned = await scan({formats: [Format.QRCode] });
                 }}
                 class=" h-6 mr-10 text-primary-500"
-                size="30"
                 style="outline: none; box-shadow: none; border: none;"
             />
 
