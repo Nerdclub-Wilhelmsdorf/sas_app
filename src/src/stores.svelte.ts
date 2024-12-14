@@ -30,7 +30,7 @@ export let isLoading = $state({loading: false});
 
 export let PinInputModal = $state({open: false, pin: ""});
 
-export let QrCodeModal = $state({open: false});
+export let QrCodeModal = $state({open: false, disableScan: false});
 
 export let inputAmount = $state({amount : ""});
 export let Partner = $state({partner: ""});

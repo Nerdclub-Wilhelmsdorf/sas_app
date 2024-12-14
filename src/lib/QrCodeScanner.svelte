@@ -7,6 +7,8 @@
         Html5QrcodeSupportedFormats,
         Html5QrcodeScannerState,
     } from 'html5-qrcode';
+    import { Button, Modal } from 'flowbite-svelte';
+    import { QrCodeModal } from '../src/stores.svelte';
 
     let { scanSuccess, scanFailure, class: klass, width, height, paused = false } = $props();
 
@@ -26,10 +28,13 @@
         );
         scanner.render(scanSuccess, scanFailure);
     });
-
     // pause/resume scanner to avoid unintended scans
 
-    let togglePause = $derived.by((paused) => {
+    $effect(() => {
+        if (QrCodeModal.disableScan) {
+            scanner?.clear();
+            QrCodeModal.open = false;
+        }
         if (paused && scanner?.getState() === Html5QrcodeScannerState.SCANNING) {
             scanner?.pause();
         } else if (scanner?.getState() === Html5QrcodeScannerState.PAUSED) {

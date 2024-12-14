@@ -3,12 +3,12 @@
     import { QrCode, UserRound, Wallet } from "lucide-svelte";
     import {handleBalanceClick, handlePayClick, handleQRClick, payColors, balanceColors, qrColors} from "../src/bottombar.svelte";
     import { onMount } from "svelte";
-    import { CurrentError, isLoading, PinInputModal } from "../src/stores.svelte";
+    import { CurrentError, isLoading, PinInputModal, QrCodeModal } from "../src/stores.svelte";
     import PinModal from "./PinModal.svelte";
     import { platform } from '@tauri-apps/plugin-os';
     let modalOpen = $state(false);
     $effect(() => {
-        modalOpen = (CurrentError.hasError || isLoading.loading || PinInputModal.open);
+        modalOpen = (CurrentError.hasError || isLoading.loading || PinInputModal.open || QrCodeModal.open);
     });
 
 </script>

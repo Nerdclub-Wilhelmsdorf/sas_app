@@ -49,7 +49,7 @@
             placeholder={data.hintText}
             required
             bind:value={Partner.partner}
-            class="mr-2 ml-10"
+            class="mr-2 ml-10 justify-center"
             size = "lg"
             autocomplete="one-time-code"
         />
@@ -57,6 +57,7 @@
     class="h-6 mr-10 text-primary-500"
     style="outline: none; box-shadow: none; border: none; cursor: pointer;"
     onclick={async () => {
+        QrCodeModal.disableScan = false;
         QrCodeModal.open = true;
     }}
       >

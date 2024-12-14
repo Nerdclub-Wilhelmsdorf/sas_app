@@ -5,23 +5,34 @@
     import { CurrentError, isLoading, Partner, QrCodeModal } from '../src/stores.svelte';
     import QrScanImpl from './QrCodeScanner.svelte';
     import QrCodeScanner from './QrCodeScanner.svelte';
+    let paused = $state(false);
   </script>
     
-  <Modal bind:open={QrCodeModal.open} size="xs" dismissable>
+  <Modal bind:open={QrCodeModal.open} size="xs" dismissable={false}>
     <QrCodeScanner 
     scanSuccess={(e) => {
         if (String(e).startsWith('w:')) {
+            QrCodeModal.disableScan = true;
             Partner.partner = e.substring(2);
-            QrCodeModal.open = false;
         } else {
             
         }
     }}
     scanFailure={(e) => {}}
-    paused={false}
+    paused={paused}
     width={320}
     height={320}
     class="w-full max-w-sm bg-slate-700 rounded-lg overflow-hidden"
 />
+    <Button
+        slot="footer"
+        color="primary"
+        size="lg"
+        on:click={() => {
+            QrCodeModal.disableScan = true;
+        }}
+    >
+        Schließen
+    </Button>
   </Modal>
   
