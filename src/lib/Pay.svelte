@@ -6,7 +6,6 @@
     import { handleSend } from "../src/handleSend";
     import PinModal from './PinModal.svelte';
     import { authenticate } from '@tauri-apps/plugin-biometric';
-    import { scan, Format} from '@tauri-apps/plugin-barcode-scanner';
     const dataSender = {
         topText: "Empfänger",
         hintText: "Kontonummer des Empfängers",
