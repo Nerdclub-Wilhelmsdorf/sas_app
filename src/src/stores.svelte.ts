@@ -18,7 +18,7 @@ export function setCurrentPage(page: CurrentPage) {
     currentPage.page = page;
 }
 
-export let User = $state({name: "urs", pin: "1234"});
+export let User = $state({name: "", pin: ""});
 
 
 export let Balance = $state({balance: "", history : [] as HistoryType[]});
@@ -52,3 +52,7 @@ export const BiometricOptions = {
     subtitle: 'Bitte authentifiziere dich um fortzufahren.',
     confirmationRequired: true,
   };
+
+export let loginData = $state({name: "", pin: ""});
+
+export let isLoggedIn = $state({loggedIn: true});

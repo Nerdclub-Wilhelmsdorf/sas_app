@@ -8,10 +8,6 @@
     "main"
   ],
   "permissions": [
-    "biometric:default",
-    "barcode-scanner:default",
-    "barcode-scanner:allow-scan",
-    "barcode-scanner:allow-cancel",
-    "barcode-scanner:allow-vibrate"  
+    "biometric:default"
   ]
 }

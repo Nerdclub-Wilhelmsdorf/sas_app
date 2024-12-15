@@ -11,6 +11,7 @@ export let balanceColors = $state({color: gray});
 export let qrColors = $state({color: gray});
 
 
+
 export async function handleBalanceClick() {
   if (currentPage.page != CurrentPage.Balance) {
     if (!biometricUnlockedAccount.unlocked) {

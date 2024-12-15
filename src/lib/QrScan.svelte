@@ -2,23 +2,28 @@
 <script>
     import { Button, Modal, Spinner } from 'flowbite-svelte';
     import { CircleX } from 'lucide-svelte';
-    import { CurrentError, isLoading, Partner, QrCodeModal } from '../src/stores.svelte';
+    import { CurrentError, CurrentPage, currentPage, isLoading, loginData, Partner, QrCodeModal } from '../src/stores.svelte';
     import QrScanImpl from './QrCodeScanner.svelte';
     import QrCodeScanner from './QrCodeScanner.svelte';
+    import Pay from './Pay.svelte';
     let paused = $state(false);
   </script>
     
   <Modal bind:open={QrCodeModal.open} size="xs" dismissable={false}>
     <QrCodeScanner 
-    scanSuccess={(e) => {
+    scanSuccess={(/** @type {string} */ e) => {
         if (String(e).startsWith('w:')) {
             QrCodeModal.disableScan = true;
-            Partner.partner = e.substring(2);
+            if(currentPage.page == CurrentPage.Pay) {
+                Partner.partner = e.substring(2);
+            } else if(currentPage.page == CurrentPage.Login) {
+                loginData.name = e.substring(2);
+            }
         } else {
             
         }
     }}
-    scanFailure={(e) => {}}
+    scanFailure={() => {}}
     paused={paused}
     width={320}
     height={320}

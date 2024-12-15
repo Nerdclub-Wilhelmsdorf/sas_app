@@ -8,6 +8,7 @@
   "permissions": [
     "core:default",
     "http:default",
+    "store:default",
     {
       "identifier": "http:default",
       "allow": [{ "url": "https://banking.saswdorf.de" }]
