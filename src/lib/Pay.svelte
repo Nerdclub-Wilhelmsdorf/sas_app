@@ -39,6 +39,27 @@
             data = dataSender;
         }
     });
+
+    async function handleContinue() {
+        if(!isRecieve){
+                try {
+                await authenticate('Bitte authentifiziere dich.', BiometricOptions);
+          } catch{
+              CurrentError.error = "Fehler bei der Authentifizierung.";
+              CurrentError.hasError = true;
+              return
+            }
+           let resp = await handleSend(User.name,Partner.partner ,inputAmount.amount, User.pin);
+           if (resp) {
+            toast.success("Erfolgreich überwiesen: " + inputAmount.amount + "D");
+            inputAmount.amount = "";
+            Partner.partner = "";
+            } else {
+           }
+        }else {
+            PinInputModal.open = true;
+        }
+    }
 </script>
 <Toaster />
 <P class="mb-2 mt-20 ml-10" size="lg">{data.topText}</P>
@@ -48,6 +69,11 @@
             placeholder={data.hintText}
             required
             bind:value={Partner.partner}
+            on:keypress={async (event) => {
+                if (event.key === 'Enter') {
+                    await handleContinue();
+                }
+            }}
             class="mr-2 ml-10 justify-center"
             size = "lg"
             autocomplete="one-time-code"
@@ -73,6 +99,11 @@
             placeholder="12"
             required
             size="lg"
+            on:keypress={async (event) => {
+                if (event.key === 'Enter') {
+                    await handleContinue();
+                }
+            }}
             class="ml-10"
             style="margin-right: 4.4rem"
             autocomplete="one-time-code"
@@ -92,24 +123,7 @@
         {#if inputAmount.amount !== "" && !isNaN(Number(inputAmount.amount))} {Number(inputAmount.amount) - (Number(inputAmount.amount) / 10) + "D"}{/if}
     </Label>
     <Button class="mb-10 py-6 px-24 text-2xl rounded-full" on:click={async () => {
-         if(!isRecieve){
-                try {
-                await authenticate('Bitte authentifiziere dich.', BiometricOptions);
-          } catch{
-              CurrentError.error = "Fehler bei der Authentifizierung.";
-              CurrentError.hasError = true;
-              return
-            }
-           let resp = await handleSend(User.name,Partner.partner ,inputAmount.amount, User.pin);
-           if (resp) {
-            toast.success("Erfolgreich überwiesen: " + inputAmount.amount + "D");
-            inputAmount.amount = "";
-            Partner.partner = "";
-            } else {
-           }
-        }else {
-            PinInputModal.open = true;
-        }
+        await handleContinue();
     }} size="lg" disabled={!canContinue}>Weiter</Button>
 </div>
 

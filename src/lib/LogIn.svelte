@@ -21,7 +21,28 @@
             }
         }
     });
-
+    async function handleContinue() {
+        isLoading.loading = true;
+        let [success, error] = await handleVerify(loginData.name, loginData.pin);
+        if (!success) {
+            isLoading.loading = false;
+            CurrentError.error = error;
+            CurrentError.hasError = true;
+            isLoading.loading = false;
+            return;
+        }
+        if (success) {
+            User.name = loginData.name;
+            User.pin = loginData.pin;
+            await storeCredentials(loginData.name, loginData.pin);
+            loginData.name = "";
+            loginData.pin = "";
+            isLoading.loading = false;
+            isLoggedIn.loggedIn = true;
+            currentPage.page = CurrentPage.Pay;
+            toast.success("Erfolgreich angemeldet.");
+        }
+    }
 </script>
 <Toaster />
 <Heading tag="h2" class="mt-4 mb-1 text-center" customSize="text-3xl font-bold">Wilkommen.</Heading>
@@ -33,6 +54,11 @@
         <Input
             placeholder="Deine Kontonummer"
             required
+            on:keypress={async (event) => {
+                if (event.key === 'Enter') {
+                    await handleContinue();
+                }
+            }}
             bind:value={loginData.name}
             class="mr-2 ml-10"
             size = "lg"
@@ -61,6 +87,11 @@
             size="lg"
             class="ml-10"
             type="password"
+            on:keypress={async (event) => {
+                if (event.key === 'Enter') {
+                    await handleContinue();
+                }
+            }}
             style="margin-right: 4.4rem"
             autocomplete="one-time-code"
         />
@@ -70,25 +101,6 @@
 
 <div class="grid justify-center items-center" style="position: fixed; bottom: 20%; width: 100%;">
     <Button class="mb-10 py-6 px-24 text-2xl rounded-full" on:click={async () => {
-        isLoading.loading = true;
-        let [success, error] = await handleVerify(loginData.name, loginData.pin);
-        if (!success) {
-            isLoading.loading = false;
-            CurrentError.error = error;
-            CurrentError.hasError = true;
-            isLoading.loading = false;
-            return;
-        }
-        if (success) {
-            User.name = loginData.name;
-            User.pin = loginData.pin;
-            await storeCredentials(loginData.name, loginData.pin);
-            loginData.name = "";
-            loginData.pin = "";
-            isLoading.loading = false;
-            isLoggedIn.loggedIn = true;
-            currentPage.page = CurrentPage.Pay;
-            toast.success("Erfolgreich angemeldet.");
-        }
+        await handleContinue();
     }} size="lg" disabled={!canContinue}>Weiter</Button>
 </div>
