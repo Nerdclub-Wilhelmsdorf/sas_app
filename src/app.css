@@ -25,6 +25,7 @@ body {
   overflow: hidden;
 }
 
+
 html {
   touch-action: manipulation;
   -ms-touch-action: manipulation;
@@ -35,4 +36,13 @@ html {
   -ms-text-size-adjust: 100%;
   text-size-adjust: 100%;
   overflow: hidden;
+}
+
+
+*:focus {
+  outline: none;
+  color: inherit;
+  background-color: inherit;
+  border: none;
+  box-shadow: none;
 }

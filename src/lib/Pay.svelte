@@ -86,7 +86,7 @@
         QrCodeModal.open = true;
     }}
       >
-    <QrCodeIcon size={20} />
+    <QrCodeIcon size={26} />
 </a>
     </div>
 </div>
@@ -105,7 +105,7 @@
                 }
             }}
             class="ml-10"
-            style="margin-right: 4.4rem"
+            style="margin-right: 4.66rem"
             autocomplete="one-time-code"
         />
     </div>

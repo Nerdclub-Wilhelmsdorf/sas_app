@@ -12,7 +12,8 @@ export let qrColors = $state({color: gray});
 
 
 
-export async function handleBalanceClick() {
+export async function handleBalanceClick(event: Event) {
+  (event.currentTarget as HTMLElement).blur();
   if (currentPage.page != CurrentPage.Balance) {
     if (!biometricUnlockedAccount.unlocked) {
       try {
@@ -49,7 +50,8 @@ export async function handleBalanceClick() {
     qrColors.color = gray;
   }
 }
-export function handlePayClick() {
+export function handlePayClick(event: Event) {
+  (event.currentTarget as HTMLElement).blur();
  if (currentPage.page != CurrentPage.Pay) {
    setCurrentPage(CurrentPage.Pay);
     payColors.color = primary;
@@ -57,7 +59,8 @@ export function handlePayClick() {
     qrColors.color = gray;
   }
 }
-export function handleQRClick() {
+export function handleQRClick(event: Event) {
+  (event.currentTarget as HTMLElement).blur();
   if (currentPage.page != CurrentPage.QR) {
 
     setCurrentPage(CurrentPage.QR);

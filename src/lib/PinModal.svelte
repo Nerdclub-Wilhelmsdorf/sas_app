@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Button, Input, Modal, P } from 'flowbite-svelte';
-    import { ArrowLeft, CircleX } from 'lucide-svelte';
+    import { ArrowLeft, CircleX, Shuffle } from 'lucide-svelte';
     import { CurrentError, inputAmount, Partner, PinInputModal, User } from '../src/stores.svelte';
     import toast, { Toaster } from 'svelte-5-french-toast';
     import { handleSend } from '../src/handleSend';
@@ -10,10 +10,10 @@
       PinInputModal.pin += num;
     }
   
-    function handleClear() {
-      PinInputModal.pin = '';
+    function handleShuffle() {
+      numbers = numbers.sort(() => Math.random() - 0.5);
     }
-  
+    let numbers = $state([1, 2, 3, 4, 5, 6, 7, 8, 9, 0]);
     function handleRemoveLast() {
       PinInputModal.pin = PinInputModal.pin.slice(0, -1);
     }
@@ -28,7 +28,10 @@
 
   </script>
   <Toaster />
-  <Modal bind:open={PinInputModal.open} class="w-10/12 max-h-full" on:close={() => PinInputModal.pin = ""}>
+  <Modal bind:open={PinInputModal.open} class="w-10/12 max-h-full" on:close={() =>{
+    PinInputModal.pin = "";
+    numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
+  }}>
     <div class="flex flex-col justify-center items-center h-full">
       <Input
         placeholder="PIN"
@@ -41,11 +44,11 @@
         disabled 
       />
       <div class="grid grid-cols-3 gap-2 mt-5">
-        {#each [1, 2, 3, 4, 5, 6, 7, 8, 9] as number}
-          <Button class="h-16 w-16" on:click={() => handleNumberClick(number)}>{number}</Button>
+        {#each numbers.slice(0, 9) as number}
+          <Button class="h-16 w-16 text-xl" on:click={() => handleNumberClick(number)}>{number}</Button>
         {/each}
-        <Button class="h-16 w-16" on:click={handleClear}><P size="xl">C</P></Button>
-        <Button class="h-16 w-16" on:click={() => handleNumberClick(0)}>0</Button>
+        <Button class="h-16 w-16" on:click={handleShuffle}><Shuffle></Shuffle></Button>
+        <Button class="h-16 w-16 text-xl" on:click={() => handleNumberClick(numbers[9])}>{numbers[9]}</Button>
         <Button class="h-16 w-16" on:click={handleRemoveLast}><ArrowLeft></ArrowLeft></Button>
       </div>
       <Button class="mt-6" disabled={!isEnabled} on:click={async () => {{

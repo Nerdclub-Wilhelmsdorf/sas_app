@@ -22,7 +22,7 @@
 </script>
 
 <Navbar color="form">
-  <NavBrand href="/">
+  <NavBrand>
       <span class="text-xl font-semibold dark:text-white">SaS Pay</span>
   </NavBrand>
   <Menu class="no-outline outline-none" onclick={handleDropdownClick} />
