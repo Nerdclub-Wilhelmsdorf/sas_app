@@ -16,8 +16,6 @@
     import LogIn from "./lib/LogIn.svelte";
     import { checkIsLoggedIn, logout } from "./src/login.svelte";
   onMount(async () => {
-    let status = await checkStatus();
-    biometricsAvailable.available = status.isAvailable;
     let loggedIn = await checkIsLoggedIn();
     if(typeof loggedIn == "boolean") {
       isLoggedIn.loggedIn = false;
@@ -28,6 +26,8 @@
       isLoggedIn.loggedIn = true;
       currentPage.page = CurrentPage.Pay;
     }
+    let status = await checkStatus();
+    biometricsAvailable.available = status.isAvailable;
   });
   $effect(() => {
     if (isLoggedIn) {
