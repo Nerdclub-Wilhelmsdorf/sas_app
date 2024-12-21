@@ -1,6 +1,6 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
-  "productName": "sas_app",
+  "productName": "SaS Pay",
   "version": "0.1.0",
   "identifier": "de.doermany.app",
   "build": {
