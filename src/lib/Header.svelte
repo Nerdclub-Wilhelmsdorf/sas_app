@@ -1,18 +1,23 @@
 <script lang="ts">
     import { Navbar, NavBrand, NavLi, NavUl, Dropdown, DropdownItem, DropdownDivider } from 'flowbite-svelte';
-    import { Menu} from "lucide-svelte";
+    import { Menu } from "lucide-svelte";
     import { logout } from '../src/login.svelte';
     import { CurrentPage, currentPage } from '../src/stores.svelte';
 
-    let dropdownOpen = $state(false);
+    let dropdownOpen = false;
 
-    function handleDropdownClick() {
+    function handleDropdownClick(event: Event) {
         dropdownOpen = !dropdownOpen;
+        (event.currentTarget as HTMLElement).blur(); // Remove focus from the button
     }
 
     function handleItemClick(action: Function) {
+
         action();
         dropdownOpen = false;
+    }
+    function handleVersionClick(event: Event) {
+        (event.currentTarget as HTMLElement).blur();
     }
 </script>
 
@@ -26,8 +31,7 @@
           <DropdownItem
               on:click={() => handleItemClick(logout)}
           >Konto zurücksetzen</DropdownItem>
-          {/if}
-          <DropdownItem>Version 0.1</DropdownItem>
-
+        {/if}
+        <DropdownItem onclick={handleDropdownClick}>Version 0.1</DropdownItem>
       </Dropdown>
 </Navbar>
